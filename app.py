@@ -78,7 +78,7 @@ def plot_treemap(data):
     labels = [f"{word}\n({freq})" for word, freq in top_nouns.items()]  # ✅ 줄바꿈 추가
 
     # 🔥 ✅ 트리맵 크기 자동 조정
-    fig, ax = plt.subplots(figsize=(14, 10))  # 🔥 크기 확장
+    fig, ax = plt.subplots(figsize=(30, 15))  # 🔥 크기 확장
     
     # ✅ squarify의 padding 추가 → 글자가 겹치지 않도록 함
     squarify.plot(
@@ -87,8 +87,7 @@ def plot_treemap(data):
         color=colors, 
         alpha=0.7, 
         text_kwargs={'fontsize': 12},  # ✅ 폰트 크기 조정
-        ax=ax, 
-        pad=True  # 🔥 ✅ padding 추가로 간격 확보
+        ax=ax 
     )
 
     ax.set_title("Technology (Top 25)", fontsize=18, fontweight='bold')
