@@ -75,13 +75,27 @@ def plot_treemap(data):
     
     norm = mpl.colors.Normalize(vmin=min(top_nouns.values()), vmax=max(top_nouns.values()))
     colors = [mpl.cm.Greens(norm(value)) for value in top_nouns.values()]
-    labels = [f"{word} ({freq})" for word, freq in top_nouns.items()]
+    labels = [f"{word}\n({freq})" for word, freq in top_nouns.items()]  # ✅ 줄바꿈 추가
 
-    plt.figure(figsize=(12, 8))
-    squarify.plot(label=labels, sizes=list(top_nouns.values()), color=colors, alpha=0.7, text_kwargs={'fontsize': 12})
-    plt.title("Technology (Top 25)", fontsize=16)
-    plt.axis('off')
-    st.pyplot(plt)
+    # 🔥 ✅ 트리맵 크기 자동 조정
+    fig, ax = plt.subplots(figsize=(14, 10))  # 🔥 크기 확장
+    
+    # ✅ squarify의 padding 추가 → 글자가 겹치지 않도록 함
+    squarify.plot(
+        sizes=list(top_nouns.values()), 
+        label=labels, 
+        color=colors, 
+        alpha=0.7, 
+        text_kwargs={'fontsize': 12},  # ✅ 폰트 크기 조정
+        ax=ax, 
+        pad=True  # 🔥 ✅ padding 추가로 간격 확보
+    )
+
+    ax.set_title("Technology (Top 25)", fontsize=18, fontweight='bold')
+    ax.axis('off')  # ✅ 축 제거
+
+    st.pyplot(fig)  # ✅ 변경된 fig를 Streamlit에 표시
+
 
 def main():
     st.title("Patent Technology Analysis")
