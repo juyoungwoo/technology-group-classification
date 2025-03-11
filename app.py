@@ -35,13 +35,6 @@ def fetch_product_simple_keywords(title, api_key):
 
         result = response.choices[0].message.content.strip()  # ✅ 최신 방식으로 변경
 
-        # 🔍 API 응답 확인
-        st.write(f"🔹 API 응답 for '{title}':", result)
-
-        # 응답이 예상한 형식인지 검증
-        if len(result.split(',')) != 5:
-            st.warning(f"⚠️ Unexpected response format: {result}")
-
         return result
     except Exception as e:
         st.error(f"Error fetching technologies: {e}")
