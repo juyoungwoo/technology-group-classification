@@ -51,10 +51,20 @@ def count_word_frequency(dataframe, column_name):
     return pd.DataFrame(word_counts.items(), columns=['technology', 'frequency']).sort_values(by='frequency', ascending=False)
 
 def plot_treemap(data):
+    if data.empty:
+        st.warning("No technology data available for visualization.")
+        return
+
     top_nouns = dict(data.head(25).set_index('technology')['frequency'])
+    
+    if not top_nouns:
+        st.warning("No valid technology keywords to display in the treemap.")
+        return
+    
     norm = mpl.colors.Normalize(vmin=min(top_nouns.values()), vmax=max(top_nouns.values()))
     colors = [mpl.cm.Greens(norm(value)) for value in top_nouns.values()]
     labels = [f"{word} ({freq})" for word, freq in top_nouns.items()]
+
     plt.figure(figsize=(12, 8))
     squarify.plot(label=labels, sizes=list(top_nouns.values()), color=colors, alpha=0.7, text_kwargs={'fontsize': 12})
     plt.title("Technology (Top 25)", fontsize=16)
