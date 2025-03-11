@@ -7,7 +7,14 @@ import matplotlib as mpl
 from collections import Counter
 import openai
 import re
+import matplotlib.font_manager as fm
 
+# 한글 폰트 설정
+def set_korean_font():
+    plt.rcParams['font.family'] = 'Malgun Gothic'  # 윈도우용
+    plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
+
+set_korean_font()
 
 def fetch_product_simple_keywords(title, api_key):
     client = openai.OpenAI(api_key=api_key)  # ✅ 최신 방식으로 변경
