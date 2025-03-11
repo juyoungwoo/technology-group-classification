@@ -8,6 +8,7 @@ from collections import Counter
 import openai
 import re
 import matplotlib.font_manager as fm
+import os
 
 # ✅ 폰트 파일이 프로젝트 내부에 있는 경우 적용 (GitHub에서 실행 가능)
 font_path = os.path.join("assets", "fonts", "NanumGothic.ttf")  # 저장된 폰트 경로
