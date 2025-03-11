@@ -10,15 +10,11 @@ import re
 
 def fetch_product_simple_keywords(title, api_key):
     prompt = f"""
-    This is the title of invented patents: "{title}"
-    Please suggest 5 technologies which are highly relevant with this patent.
-    Each technology name should be consisted of max 2 words
-    Do not suggest explanations, only arrange the names of the product line.
-    Please answer in English
-    Response format :'technology1, technology2, technology3, technology4, technology5'
-    Do not say Here is technology or something like that
-    do not use 'and'
-    do not use Korean
+    This is the title of an invented patent: "{title}"
+    Please suggest exactly 5 technologies that are highly relevant to this patent.
+    Each technology name should be at most 2 words.
+    Do not include explanations—only list the names.
+    Response format: 'technology1, technology2, technology3, technology4, technology5'
     """
     try:
         time.sleep(0.1)
@@ -29,11 +25,22 @@ def fetch_product_simple_keywords(title, api_key):
                 {"role": "user", "content": prompt}
             ],
             temperature=0.1,
-            max_tokens=30,
+            max_tokens=50,
             api_key=api_key
         )
-        return response["choices"][0]["message"]["content"].strip()
+
+        result = response["choices"][0]["message"]["content"].strip()
+        
+        # 🔍 API 응답 확인
+        st.write(f"🔹 API 응답 for '{title}':", result)
+
+        # 응답이 예상한 형식인지 검증
+        if len(result.split(',')) != 5:
+            st.warning(f"⚠️ Unexpected response format: {result}")
+
+        return result
     except Exception as e:
+        st.error(f"Error fetching technologies: {e}")
         return ""
 
 def process_text(text):
