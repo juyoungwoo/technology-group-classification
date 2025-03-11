@@ -8,7 +8,10 @@ from collections import Counter
 import openai
 import re
 
+
 def fetch_product_simple_keywords(title, api_key):
+    client = openai.OpenAI(api_key=api_key)  # ✅ 최신 방식으로 변경
+
     prompt = f"""
     This is the title of an invented patent: "{title}"
     Please suggest exactly 5 technologies that are highly relevant to this patent.
@@ -16,21 +19,22 @@ def fetch_product_simple_keywords(title, api_key):
     Do not include explanations—only list the names.
     Response format: 'technology1, technology2, technology3, technology4, technology5'
     """
+    
     try:
         time.sleep(0.1)
-        response = openai.ChatCompletion.create(
+
+        response = client.chat.completions.create(  # ✅ 최신 OpenAI API 방식
             model="gpt-4o-mini-2024-07-18",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.1,
-            max_tokens=50,
-            api_key=api_key
+            max_tokens=50
         )
 
-        result = response["choices"][0]["message"]["content"].strip()
-        
+        result = response.choices[0].message.content.strip()  # ✅ 최신 방식으로 변경
+
         # 🔍 API 응답 확인
         st.write(f"🔹 API 응답 for '{title}':", result)
 
@@ -42,6 +46,7 @@ def fetch_product_simple_keywords(title, api_key):
     except Exception as e:
         st.error(f"Error fetching technologies: {e}")
         return ""
+
 
 def process_text(text):
     cleaned_text = re.sub(r".*제품 카테고리:\s*", "", text, flags=re.DOTALL)
