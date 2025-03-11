@@ -105,18 +105,24 @@ def main():
         df['기술'] = df['발명명칭'].apply(lambda title: fetch_product_simple_keywords(title, api_key))
         df['keywords'] = df['기술'].apply(process_text)
         
+        # ✅ Extracted Technology Keywords 표시 및 다운로드 버튼 추가
         st.write("### Extracted Technology Keywords")
         st.dataframe(df[['발명명칭', 'keywords']])
         
+        extracted_csv = df[['발명명칭', 'keywords']].to_csv(index=False, encoding='utf-8-sig')
+        st.download_button("Download Extracted Technology Keywords CSV", data=extracted_csv, file_name="extracted_technology_keywords.csv", mime="text/csv")
+
+        # ✅ Technology Frequency 테이블 및 다운로드 버튼 유지
         tech_freq = count_word_frequency(df, 'keywords')
         st.write("### Technology Frequency")
         st.dataframe(tech_freq)
         
+        tech_freq_csv = tech_freq.to_csv(index=False, encoding='utf-8-sig')
+        st.download_button("Download Technology Frequency CSV", data=tech_freq_csv, file_name="technology_frequency.csv", mime="text/csv")
+        
         st.write("### Technology Treemap")
         plot_treemap(tech_freq)
-        
-        csv = tech_freq.to_csv(index=False, encoding='utf-8-sig')
-        st.download_button("Download Technology Frequency CSV", data=csv, file_name="technology_frequency.csv", mime="text/csv")
+
 
 if __name__ == "__main__":
     main()
