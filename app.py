@@ -9,12 +9,15 @@ import openai
 import re
 import matplotlib.font_manager as fm
 
-# 한글 폰트 설정
-def set_korean_font():
-    plt.rcParams['font.family'] = 'Malgun Gothic'  # 윈도우용
-    plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
+# ✅ 폰트 파일이 프로젝트 내부에 있는 경우 적용 (GitHub에서 실행 가능)
+font_path = os.path.join("assets", "fonts", "NanumGothic.ttf")  # 저장된 폰트 경로
+if os.path.exists(font_path):
+    font_prop = fm.FontProperties(fname=font_path)
+    plt.rc('font', family=font_prop.get_name())
+else:
+    plt.rc('font', family="Arial")  # 폰트가 없을 경우 대체 폰트 사용
 
-set_korean_font()
+plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
 
 def fetch_product_simple_keywords(title, api_key):
     client = openai.OpenAI(api_key=api_key)  # ✅ 최신 방식으로 변경
