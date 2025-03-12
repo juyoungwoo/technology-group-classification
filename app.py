@@ -60,11 +60,13 @@ def process_text(text):
     cleaned_text = cleaned_text.replace(' technology', 'technology')
     return cleaned_text
 
+
 def count_word_frequency(dataframe, column_name):
     column_data = dataframe[column_name].dropna()
     all_words = [word.strip() for cell in column_data for word in set(str(cell).split(',')) if word.strip()]
     word_counts = Counter(all_words)
     return pd.DataFrame(word_counts.items(), columns=['technology', 'frequency']).sort_values(by='frequency', ascending=False)
+
 
 def plot_treemap(data):
     if data.empty:
@@ -115,12 +117,18 @@ def main():
         st.write("Processing patent titles...")
         df['기술'] = df['발명명칭'].apply(lambda title: fetch_product_simple_keywords(title, api_key))
         df['keywords'] = df['기술'].apply(process_text)
-
-        # ✅ 기술 빈도수 계산
-        tech_freq = count_word_frequency(df, 'keywords')  # 🔥 변수 추가
-
+        
+        # ✅ Extracted Technology Keywords 표시
+        st.write("### Extracted Technology Keywords")
+        st.dataframe(df[['발명명칭', 'keywords']])
+        
+        # ✅ Technology Frequency 테이블 유지
+        tech_freq = count_word_frequency(df, 'keywords')
+        st.write("### Technology Frequency")
+        st.dataframe(tech_freq)
+        
         st.write("### Technology Treemap")
-        plot_treemap(tech_freq)  # 🔥 tech_freq 변수를 올바르게 전달
+        plot_treemap(tech_freq)
 
 
 if __name__ == "__main__":
