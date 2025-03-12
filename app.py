@@ -120,7 +120,7 @@ def main():
         st.write("### Extracted Technology Keywords")
         st.dataframe(df[['발명명칭', 'keywords']])
         
-        extracted_csv = df[['발명명칭', 'keywords']].to_csv(index=False, encoding='utf-8-sig')
+        extracted_csv = df[['발명명칭', 'keywords']].to_csv(index=False, encoding='cp949')
         st.download_button("Download Extracted Technology Keywords CSV", data=extracted_csv, file_name="extracted_technology_keywords.csv", mime="text/csv")
 
         # ✅ Technology Frequency 테이블 및 다운로드 버튼 유지
