@@ -11,7 +11,7 @@ import matplotlib.font_manager as fm
 import os
 
 # ✅ 폰트 파일이 프로젝트 내부에 있는 경우 적용 (GitHub에서 실행 가능)
-font_path = os.path.join("assets", "fonts", "NanumGothic.ttf")  # 저장된 폰트 경로
+font_path = os.path.join("assets", "fonts", "NanumGothic-Regular.ttf")  # 저장된 폰트 경로
 if os.path.exists(font_path):
     font_prop = fm.FontProperties(fname=font_path)
     plt.rc('font', family=font_prop.get_name())
