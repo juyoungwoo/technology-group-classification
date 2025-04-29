@@ -27,6 +27,7 @@ def fetch_product_simple_keywords(title, api_key):
     This is the title of an invented patent: "{title}"
     Please suggest exactly 5 technologies that are highly relevant to this patent.
     Each technology name should be at most 2 words.
+    All results must be in English.
     Do not include explanations—only list the names.
     Response format: 'technology1, technology2, technology3, technology4, technology5'
     """
